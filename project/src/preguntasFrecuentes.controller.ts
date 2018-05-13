@@ -12,7 +12,9 @@ export class PreguntasFrecuentesController{
 
     @Get('preguntas')
     mostrarPreguntas(){
-        return this.preguntas1;
+        let htmlpreguntas= fs.readFileSync(__dirname+'/html/preguntasFrecuentes.html', 'utf8');
+        htmlpreguntas=htmlpreguntas.replace('{{variable}}',this.preguntas1);
+        return htmlpreguntas;
     }
 }
 
@@ -20,5 +22,7 @@ class preguntas{
     constructor(public pregunta?:string,
                 public respuesta?: string){
     }
+
+
 
 }
