@@ -1,28 +1,31 @@
-import {Controller, Post, Req, Get, Res} from "@nestjs/common";
+import {Controller, Post, Req, Get, Res, Param, HttpCode} from "@nestjs/common";
 const fs = require('fs');
+let htmlpreguntas= fs.readFileSync(__dirname+'/html/preguntasFrecuentes.html', 'utf8');
 @Controller()
 export class PreguntasFrecuentesController{
-    preguntas1: preguntas[]=[];
+    preguntasF: preguntasFrecuentes[]=[];
+
     @Post('anadirPreguntas')
     anadirPreguntas(@Req() req, @Res() res){
         const parametrosQuery=req.query;
-        this.preguntas1.push(new preguntas(parametrosQuery.pregunta, parametrosQuery.respuesta));
-        return res.send(this.preguntas1);
+        this.preguntasF.push(new preguntasFrecuentes(parametrosQuery.pregunta, parametrosQuery.respuesta));
+        this.preguntasF.forEach(value => {
+            htmlpreguntas=htmlpreguntas.concat('<h1> Pregunta </h1> ',value.pregunta);
+            htmlpreguntas=htmlpreguntas.concat('<p> Respuesta</p>', value.respuesta);
+        });
+        return res.send(this.preguntasF);
     }
 
     @Get('preguntas')
-    mostrarPreguntas(){
-        let htmlpreguntas= fs.readFileSync(__dirname+'/html/preguntasFrecuentes.html', 'utf8');
-        htmlpreguntas=htmlpreguntas.replace('{{variable}}',this.preguntas1);
-        return htmlpreguntas;
+    mostrarPreguntas(@Res() response){
+        return response.status(200).send(htmlpreguntas);
     }
 }
 
-class preguntas{
-    constructor(public pregunta?:string,
-                public respuesta?: string){
+class preguntasFrecuentes{
+
+    constructor(public pregunta:string,
+                public respuesta: string){
     }
-
-
 
 }
