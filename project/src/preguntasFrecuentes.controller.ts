@@ -9,10 +9,8 @@ export class PreguntasFrecuentesController{
     anadirPreguntas(@Req() req, @Res() res){
         const parametrosQuery=req.query;
         this.preguntasF.push(new preguntasFrecuentes(parametrosQuery.pregunta, parametrosQuery.respuesta));
-        this.preguntasF.forEach(value => {
-            htmlpreguntas=htmlpreguntas.concat('<h1> Pregunta </h1> ',value.pregunta);
-            htmlpreguntas=htmlpreguntas.concat('<p> Respuesta</p>', value.respuesta);
-        });
+            htmlpreguntas=htmlpreguntas.concat('<h1> Pregunta </h1> ',parametrosQuery.pregunta);
+            htmlpreguntas=htmlpreguntas.concat('<p> Respuesta</p>', parametrosQuery.respuesta);
         return res.send(this.preguntasF);
     }
 
